@@ -1,0 +1,43 @@
+Project 3 (due Mar 7): Using a hidden Markov model for prediction of transmembrane helices (mandatory)
+This project is about using hidden Markov models for prediction of transmembrane helices in membrane proteins.
+
+Dataset
+
+You get a data set consisting of 160 membrane proteins annotated with their transmembrane helices in a format similar to the one used in project 2, where 'i' means that the correspoding amino acid is 'inside', 'o' means 'outside', and 'M' means in a transmembrane helix. The 160 sequences are split into 10 groups (set160.x.labels.txt for x = 0, 1, .., 9):
+
+Dataset160.zip
+The data set originates from the development of the TMHMM program.
+
+Problem
+
+As explained in class, predicting transmembrane helices using an HMM involves:
+
+Decide on an initial model structure, i.e. the number of hidden states, and the model parameters (transition, emission, and start probabilities) that should have a fixed value.
+Set the remaining model parameters by training, i.e. estimate them from available training data.
+Use the trained HMM to predict transmembrane helices of a protein by using Viterbi or posterior decoding to get a sequence of hidden states in the HMM that either corresponds directly to an annotation of the amino acids in protein with i's, o's, and M's (as is the case for the 3-state model explained in class), or can be transformed to an annotation (as is the case for the 4-state model explained in class).
+To evaluate the performance of a machine learning based prediction method, i.e. a method based on a model estimated trained from data, one often performs a k-fold cross-validation. In a k-fold cross-validation, the training data is divided into k parts. The experiment has k rounds. In each round a new part of the training data is put aside, and a model is trained on the remaining k-1 parts of the training data, when trained, a prediction is made on the part that was out aside. This prediction is compared against the true prediction (known from the traning data) and a quality score is computed. The outcome of a k-fold experiment is thus k quality scores of which one typically computes and reports the mean and variance.
+
+In our case, the training data has been split into 10 parts, and the script
+
+compare_tm_pred.py
+can be used to compare a predicted annotation against the know annotation in order to compute the 'quality scores' discussed in class.
+
+Task
+
+You must do the following, steps 1-4 are mandatory, and steps 5-10 are optional:
+
+MANDATORY: Train the 3-state model (from class) on parts 0-8 of the training data using training-by-counting. Show the obtained model parameters (transition, emission, and start probabilities).
+MANDATORY: Redo step 1 with the 4-state model (from class). Recall that for this model, the given annotations does not correspond immediately to sequences of hidden states, as there are two states that we interpret as being in transmembrane helix (annotation M).
+MANDATORY: Make a 10-fold experiment using the 3-state model, training-by-counting, and Viterbi decoding for prediction. Show the AC computed by compare_tm_pred.py for each fold, and show the mean and variance of the ACs over all 10 folds.
+MANDATORY: Redo step 3 with the 4-state model.
+OPTIONAL: Redo step 3 and 4 using Posterior decoding. How does the results obtained by posterior decoding compare to the results obtained by Viterbi decoding?
+OPTIONAL: Redo steps 3-5 for any other models that you find relevant, e.g. the ones we talked about in class. What is the best AC (i.e. best mean over a 10-fold experiment) that you can obtain? How does your best model look like?
+OPTIONAL: Redo steps 3-6 using Viterbi-training instead of training-by-counting (i.e. you ignore the annotations in the training data.)
+OPTIONAL: Redo steps 3-6 using EM-training instead of training-by-counting.
+OPTIONAL: If you have implemented the forward and backward algorithms using both scaling and log-transform as explained in class, you can make a comparison of their running times, e.g. by measuring the time it takes to make the posterior decodings in the 10-fold experiments.
+OPTIONAL: Compare your best prediction method against the THMMM program.
+Presentation
+
+You must present your work and results in a 5-7 minutes presentation in class on Tuesday, Mar 7.
+
+You must handin your slides (in pdf-format) via Blackboard before Tuesday, Mar 7, 09:00.
