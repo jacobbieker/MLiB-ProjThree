@@ -3,8 +3,8 @@ import os
 import csv
 
 # Convert lower m to M in end result
-index_to_states = {1: "i", 2: "M", 3: "m", 4: "o"}
-states_to_index = {"i": 1, "M": 2, "o": 4, "m": 3}
+index_to_states = {0: "i", 1: "M", 2: "m", 3: "o"}
+states_to_index = {"i": 0, "M": 1, "o": 3, "m": 2}
 
 #TODO: Training by counting, show emission, transition, start probabilities for model
 #TODO: Use viterbi decoding for prediction, do a 10-fold experiement (leave on out each time)
@@ -54,9 +54,6 @@ pi_table = np.ones(len(index_to_states))
 # Out what the middle transitions to or from, since current annotations are just "M"
 def preprocess_annotation(annotation):
     prev_value = ""
-    next_value = ""
-    start_index = 0
-    end_index = 0
     # New Annotation that will have "m" for the fourth state
     new_annotation = ""
     for index, place in enumerate(annotation):
@@ -70,8 +67,6 @@ def preprocess_annotation(annotation):
         elif place == "i":
             prev_value = "i"
             new_annotation += "i"
-    print(len(annotation))
-    print(len(new_annotation))
     return new_annotation
 
 
