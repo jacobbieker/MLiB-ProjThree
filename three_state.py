@@ -2,7 +2,6 @@ import numpy as np
 import os
 import csv
 
-#TODO: Training by counting, show emission, transition, start probabilities for model
 #TODO: Use viterbi decoding for prediction, do a 10-fold experiement (leave on out each time)
 # Viterbi decoding can be from project 2, should work here, as training-by-counting gives the probablities
 num_of_states = 3
@@ -85,8 +84,11 @@ print(np.sum(pi_table))
 print(np.sum(transitions_table))
 print(np.sum(emissions_table))
 
+print("Start Probablities:")
 print(pi_table)
+print("Transition Probablities:")
 print(transitions_table)
+print("Emission Probabilities:")
 print(emissions_table)
 
 
