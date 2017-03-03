@@ -83,7 +83,7 @@ for key in sorted(true.keys()):
     tp, fp, tn, fn = count(true_z, pred_z)
     total_tp, total_fp, total_tn, total_fn = total_tp + tp, total_fp + fp, total_tn + tn, total_fn + fn
     print_stats(tp, fp, tn, fn)
-    print
+    print()
 
 print("Summary (over all sequences):")
 print_stats(total_tp, total_fp, total_tn, total_fn)
