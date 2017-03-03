@@ -9,6 +9,7 @@ states_to_index = {"i": 1, "M": 2, "o": 4, "m": 3}
 #TODO: Training by counting, show emission, transition, start probabilities for model
 #TODO: Use viterbi decoding for prediction, do a 10-fold experiement (leave on out each time)
 # Viterbi decoding can be from project 2, should work here, as training-by-counting gives the probablities
+# Difference between M states: one is from interior to exterior, other is from exterior to interior
 num_of_states = 4
 
 observable_to_index = {'A':0,'C':1,'E':2,'D':3,'G':4,'F':5,'I':6,'H':7,'K':8,'M':9,'L':10,'N':11,'Q':12,'P':13,'S':14,'R':15,'T':16,'W':17,'V':18,'Y':19}
@@ -48,6 +49,36 @@ pi_table = np.ones(len(index_to_states))
 # Starts it with the "pseudo" count, every state has 1 right now
 # As go through the sequences and files, keep the same tables for the training data,
 # Final table values are after all sets are read in, and only used for the last set
+
+# Have to preprocess annotation a little more before sending it to the sequences, basically to figure
+# Out what the middle transitions to or from, since current annotations are just "M"
+def preprocess_annotation(annotation):
+    prev_value = ""
+    next_value = ""
+    start_index = 0
+    end_index = 0
+    # New Annotation that will have "m" for the fourth state
+    new_annotation = ""
+    for index, place in enumerate(annotation):
+        if place == "o":
+            prev_value = "o"
+            new_annotation += "o"
+        elif prev_value == "o" and place == "M":
+            new_annotation += "m"
+        elif prev_value == "i" and place == "M":
+            new_annotation += "M"
+        elif place == "i":
+            prev_value = "i"
+            new_annotation += "i"
+    print(len(annotation))
+    print(len(new_annotation))
+    return new_annotation
+
+
+# Convert annotations to new values
+for index, annotation in enumerate(sequence_annotations):
+    sequence_annotations[index] = preprocess_annotation(annotation)
+
 
 # Go through every sequence, matching it up with the annotation, counting the states
 for index, seq in enumerate(sequences):
