@@ -68,8 +68,26 @@ total_emissions = np.sum(emissions_table)
 
 # Now divide all values by the total
 pi_table /= total_pi
-transitions_table /= total_transition
-emissions_table /= total_emissions
+
+# Need to have each row equal to 1, instead of the whole equal to 1
+for index, row in enumerate(transitions_table):
+    total_row = np.sum(row)
+    transitions_table[index] /= total_row
+
+for index, row in enumerate(emissions_table):
+    total_row = np.sum(row)
+    emissions_table[index] /= total_row
+
+#transitions_table /= total_transition
+#emissions_table /= total_emissions
+
+print(np.sum(pi_table))
+print(np.sum(transitions_table))
+print(np.sum(emissions_table))
+
+print(pi_table)
+print(transitions_table)
+print(emissions_table)
 
 
 ##################### END CALCULATE PROB #######################################
@@ -132,26 +150,27 @@ def viterbi_decoding(vit_sequences, vit_transitions_table, vit_emissions_table, 
         print("Finished")
 
 
-decoding = True
+decoding = False
 test_file_num = 9
 test_sequences = []
 test_sequence_annotations = []
 test_sequence_names = []
-with open(os.path.join("data", "set160." + str(test_file_num) + ".labels.txt")) as sequence_data:
-    for line in sequence_data:
-        if ">" in line:
-            test_sequence_names.append(line.split(">")[1].strip())
-            spot = 1
-        elif spot == 1:
-            test_sequences.append(line.strip())
-            spot = 0
-        elif "#" in line:
-            test_sequence_annotations.append(line.split("#")[1].strip())
+if decoding:
+    with open(os.path.join("data", "set160." + str(test_file_num) + ".labels.txt")) as sequence_data:
+        for line in sequence_data:
+            if ">" in line:
+                test_sequence_names.append(line.split(">")[1].strip())
+                spot = 1
+            elif spot == 1:
+                test_sequences.append(line.strip())
+                spot = 0
+            elif "#" in line:
+                test_sequence_annotations.append(line.split("#")[1].strip())
 
-print(sequence_names)
-print(sequences)
-print(sequence_annotations)
-print(len(sequence_names))
+    print(sequence_names)
+    print(sequences)
+    print(sequence_annotations)
+    print(len(sequence_names))
 
-viterbi_decoding(test_sequences, transitions_table, emissions_table, pi_table, test_sequence_names)
+    viterbi_decoding(test_sequences, transitions_table, emissions_table, pi_table, test_sequence_names)
 
