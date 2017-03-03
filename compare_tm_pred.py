@@ -25,7 +25,7 @@ def fasta(f):
     """
     d = {}
     curr_key = ""
-    lines = [string.strip(l) for l in open(f).readlines() if (l[0] != ';')]
+    lines = open(f).readlines()
     for l in lines:
         if l == '': continue
         if l[0] == '>':
@@ -72,8 +72,8 @@ pred = fasta(sys.argv[2])
 total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
 
 for key in sorted(true.keys()):
-    true_x, true_z = [string.strip(s) for s in true[key].split('#')]
-    pred_x, pred_z = [string.strip(s) for s in pred[key].split('#')]
+    true_x, true_z = [s.strip() for s in true[key].split('#')]
+    pred_x, pred_z = [s.strip() for s in pred[key].split('#')]
 
     if len(pred_x) != len(pred_z):
         print("ERROR: prediction on %s has wrong length" % (key))
