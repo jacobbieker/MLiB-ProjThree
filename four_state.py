@@ -173,12 +173,16 @@ def viterbi_decoding(vit_sequences, vit_transitions_table, vit_emissions_table, 
                         if omega_table[n-1][k] + np.log(vit_transitions_table[k][Z[n]]) + np.log(vit_emissions_table[Z[n]][sequence_index[n]]) == omega_table[n][Z[n]]:
                             Z[n-1] = k
         print("The Z* sequence of the hidden states:\n")
-        print("".join([index_to_states[c] for c in Z])) # the Z* sequence printed as a string
+        sequence_Z = [index_to_states[c] for c in Z]
+        for index, letter in enumerate(sequence_Z):
+            if letter == "m":
+                sequence_Z[index] = letter.capitalize()
+        print("".join(sequence_Z)) # the Z* sequence printed as a string
         print("Log value:" + str(omega_table[-1][Z[-1]]))
         print("Finished")
 
 
-decoding = False
+decoding = True
 test_file_num = 9
 test_sequences = []
 test_sequence_annotations = []
