@@ -76,14 +76,14 @@ for key in sorted(true.keys()):
     pred_x, pred_z = [string.strip(s) for s in pred[key].split('#')]
 
     if len(pred_x) != len(pred_z):
-        print "ERROR: prediction on %s has wrong length" % (key)
+        print("ERROR: prediction on %s has wrong length" % (key))
         sys.exit(1)
 
-    print ">" + key
+    print(">" + key)
     tp, fp, tn, fn = count(true_z, pred_z)
     total_tp, total_fp, total_tn, total_fn = total_tp + tp, total_fp + fp, total_tn + tn, total_fn + fn
     print_stats(tp, fp, tn, fn)
     print
 
-print "Summary (over all sequences):"
+print("Summary (over all sequences):")
 print_stats(total_tp, total_fp, total_tn, total_fn)
