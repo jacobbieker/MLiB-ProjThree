@@ -12,10 +12,7 @@
 
 
 import sys
-import string
 import math
-
-#from fasta import fasta
 
 def fasta(f):
     """
