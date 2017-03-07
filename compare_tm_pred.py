@@ -14,6 +14,8 @@
 import sys
 import math
 
+ac_all = []
+
 def fasta(f):
     """
     Reads the fasta file f and returns a dictionary with the sequence names as keys and the
@@ -51,6 +53,7 @@ def count(true, pred):
 
     return tp, fp, tn, fn
 
+
 def print_stats(tp, fp, tn, fn):
     sn = sp = cc = acp = float('Inf')
     try:
@@ -61,13 +64,16 @@ def print_stats(tp, fp, tn, fn):
     except ZeroDivisionError:
         None
     ac = (acp - 0.5) * 2
+    if outputOut:
+        with open("ac_out", "a") as output:
+            output.write(str(ac) + "\n")
     print("Sn = %.4f, Sp = %.4f, CC = %.4f, AC = %.4f" % (sn, sp, cc, ac))
 
 true = fasta(sys.argv[1])
 pred = fasta(sys.argv[2])
 
 total_tp, total_fp, total_tn, total_fn = 0, 0, 0, 0
-
+outputOut = False
 for key in sorted(true.keys()):
     true_x, true_z = [s.strip() for s in true[key].split('#')]
     pred_x, pred_z = [s.strip() for s in pred[key].split('#')]
@@ -83,4 +89,5 @@ for key in sorted(true.keys()):
     print()
 
 print("Summary (over all sequences):")
+outputOut = True
 print_stats(total_tp, total_fp, total_tn, total_fn)
